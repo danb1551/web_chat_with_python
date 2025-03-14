@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+   <!-- <meta http-equiv="refresh" content="3">  Automatické obnovování každé 3 sekundy -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Chat</h1>
+
+    <!-- Zobrazení zpráv -->
+    <div id="zpravy">
+        {% for zprava in zpravy %}
+            <p><strong>{{ zprava.jmeno }} ({{ zprava.cas }}):</strong> {{ zprava.text }}</p>
+        {% endfor %}
+    </div>
+
+    <!-- Formulář pro odesílání zpráv -->
+    <form action="{{ url_for('odeslat') }}" method="post">
+        <input type="text" name="jmeno" placeholder="Vaše jméno" required value="{{ jmeno }}">
+        <input type="text" name="text" placeholder="Vaše zpráva" required value="{{ text }}">
+        <button type="submit">Odeslat</button>
+    </form>
+
+    <!-- Formulář pro úpravu zpráv -->
+     <div class="edita">
+<h2>Upravit zprávu</h2>
+<form action="{{ url_for('edit_message') }}" method="post">
+    <input type="number" name="index" placeholder="Číslo zprávy" min="1" required>
+    <select name="field" required>
+        <option value="jmeno">Jméno</option>
+        <option value="text">Text</option>
+    </select>
+    <input type="text" name="new_value" placeholder="Nová hodnota" required>
+    <button type="submit">Upravit</button>
+</form>
+</div>
+
+
+    <!-- Tlačítko pro resetování chatu -->
+    <form action="{{ url_for('reset') }}" method="get">
+        <button type="submit">Vymazat chat</button>
+    </form>
+</body>
+</html>
